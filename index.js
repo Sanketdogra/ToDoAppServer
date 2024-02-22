@@ -22,7 +22,12 @@ app.listen(5049, () => {
 
 app.get("/api/todoapp/getToDoList", (request, response) => {
     database.collection("ToDoAppDBCollection").find({ "name": request.query.userName }).toArray((error, result) => {
-        response.send(result[0].items);
+       if (Object.hasOwn(result[0], 'items')) {
+            response.send(result[0].items);
+        }
+        else {
+            response.send(result[0]);
+        }
     });
 });
 
